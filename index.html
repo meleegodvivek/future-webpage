@@ -1,0 +1,102 @@
+<!DOCTYPE html> 
+<html lang="en" data-theme="dark"> 
+<head> <meta charset="UTF-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+<title>NeonX — Futuristic UI</title> 
+<link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet"> 
+<link rel="stylesheet" href="styles.css" /> 
+</head> <body> 
+<canvas id="bg-grid" aria-hidden="true">
+
+</canvas> 
+<header class="site-header reveal"> 
+  <div class="logo"> <span class="glow-dot">
+
+  </span> 
+  <span class="brand">NeonX</span> 
+</div> <nav class="nav"> 
+  <a href="#features">Features</a> 
+  <a href="#showcase">Showcase</a> <a href="#contact" class="cta">Get Access</a>
+   <button id="themeToggle" class="toggle" aria-label="Toggle theme">◐</button> 
+  </nav> 
+</header> 
+<main> 
+  <section class="hero reveal"> 
+    <h1 class="neon-text">Design the Next Generation</h1> 
+    <p class="subtitle">Neon glass surfaces, generative grids, and tactile depth—all tuned for performance.</p> 
+    <div class="hero-actions">
+       <a class="btn primary" href="#showcase">Explore UI Kit</a> 
+       <a class="btn ghost" href="#features">Learn more</a> 
+      </div> 
+    </section>
+
+<section id="features" class="features reveal">
+  <article class="card tilt">
+    <h3>Glass Surface</h3>
+    <p>Frosted panels with dynamic blur and subtle borders for layered depth.</p>
+  </article>
+  <article class="card tilt">
+    <h3>Neon Accents</h3>
+    <p>Electric highlights and glow for high-contrast callouts and CTAs.</p>
+  </article>
+  <article class="card tilt">
+    <h3>3D Interaction</h3>
+    <p>Perspective, translateZ, and parallax to make components feel alive.</p>
+  </article>
+</section>
+
+<section id="showcase" class="showcase reveal">
+  <div class="glass panel tilt">
+    <h2>Glass Dashboard</h2>
+    <p>Layered widgets with ambient blur on a motion grid.</p>
+    <a class="btn primary" href="#">Preview</a>
+  </div>
+  <div class="glass panel tilt">
+    <h2>Cyber Form</h2>
+    <p>Accessible inputs with neon focus rings and soft shadows.</p>
+    <a class="btn primary" href="#">Preview</a>
+  </div>
+</section>
+
+<section id="contact" class="contact reveal">
+  <form class="glass form">
+    <h2>Request Access</h2>
+    <label>
+      <span>Email</span>
+      <input type="email" placeholder="you@future.dev" required />
+    </label>
+    <label>
+      <span>Handle</span>
+      <input type="text" placeholder="@neon_explorer" />
+    </label>
+    <button class="btn primary" type="submit">Join waitlist</button>
+  </form>
+</section>
+</main> <footer class="site-footer reveal"> 
+  <p>© 2025 NeonX. Crafted with glass, neon, and depth.</p> 
+</footer> 
+<script>
+const toggle = document.getElementById('themeToggle');
+const html = document.documentElement; 
+toggle.addEventListener('click', () => { const current = html.getAttribute('data-theme'); 
+html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark'); }); 
+//Soft scroll reveal//
+ const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }); }, { threshold: 0.12 }); document.querySelectorAll('.reveal').forEach(el => obs.observe(el)); 
+ // Lightweight 3D tilt effect (no library)//
+const tiltEls = document.querySelectorAll('.tilt'); 
+tiltEls.forEach(card => { card.addEventListener('mousemove', (e) => { const r = card.getBoundingClientRect(); 
+  const px = (e.clientX - r.left) / r.width; const py = (e.clientY - r.top) / r.height; const rx = (py - 0.5) * -10; 
+  const ry = (px - 0.5) * 16; 
+  card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(12px)`; }); 
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; }); });
+   //Animated background grid on canvas// 
+   const c = document.getElementById('bg-grid');
+    const ctx = c.getContext('2d'); 
+    function resize() { c.width = innerWidth; c.height = innerHeight; } addEventListener('resize', resize); resize(); 
+    let t = 0; function loop() { t += 0.005; ctx.clearRect(0, 0, c.width, c.height); 
+      const size = 36; 
+      for (let x = 0; x < c.width; x += size) 
+      { for (let y = 0; y < c.height; y += size) { const n = Math.sin((x + y) * 0.01 + t) * 0.5 + 0.5; const alpha = 0.05 + n * 0.12; 
+        ctx.strokeStyle = `rgba(120, 200, 255, ${alpha})`; ctx.strokeRect(x, y, size, size); } } requestAnimationFrame(loop); } loop(); 
+  </script> </body> </html>
